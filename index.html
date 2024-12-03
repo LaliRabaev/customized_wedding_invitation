@@ -143,43 +143,26 @@
             }
         });
 
-        document.getElementById('submit-button').addEventListener('click', function () {
-            const urlParams = new URLSearchParams(window.location.search);
-            const phone = urlParams.get('rsvp_phone'); // Extract phone number from URL
-            const guests = document.getElementById('guests').value; // Number of guests
-            const rsvp = 'Yes'; // Hardcoded as "Yes" because the user clicked "Yes"
+        document.getElementById('submit-button').addEventListener('click', function() {
+            const guests = document.getElementById('guests').value;
+            const data = { guests: guests };
 
-            if (!phone) {
-                alert('לא ניתן לשלוח ללא מספר טלפון תקין.');
-                return;
-            }
-
-            // Data to send to Google Apps Script
-            const data = {
-                phone: phone,
-                guests: guests,
-                rsvp: rsvp
-            };
-
-            // Send data to Google Apps Script
             fetch('https://script.google.com/macros/s/AKfycbzAyUHhAbTc0JN5ut5TPGrwjrIMmuCzOr14hW5nTohEWGmNRE0uQmJDYCyH8oSFLqk/exec', {
                 method: 'POST',
-                mode: 'cors', // Enable cross-origin requests
-                headers: { 'Content-Type': 'application/json' },
+                mode: 'no-cors', // Disable CORS checking
+                headers: {
+                    'Content-Type': 'application/json'
+                },
                 body: JSON.stringify(data)
             })
-            .then(response => response.json())
-            .then(result => {
-                if (result.success) {
-                    // Redirect to thank you page after successful submission
-                    window.location.href = 'thank_you.html';
-                } else {
-                    alert('שגיאה בשליחת הנתונים.');
-                }
+            .then(() => {
+                console.log("Data sent successfully");
+                // Redirect to thank you page after successful submission
+                window.location.href = 'thank_you.html';
             })
             .catch(error => {
-                alert('שגיאה בשליחת הנתונים.');
-                console.error(error);
+                alert('שגיאה בשליחת הנתונים, אנא נסה שנית.');
+                console.error("Error:", error);
             });
         });
     </script>
