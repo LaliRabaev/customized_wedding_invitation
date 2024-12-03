@@ -135,6 +135,40 @@
                 guestsInput.value = parseInt(guestsInput.value) - 1;
             }
         });
+        document.getElementById('submit-button').addEventListener('click', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const phone = urlParams.get('rsvp_phone'); // Extract phone number from URL
+            const guests = document.getElementById('guests').value; // Number of guests
+            const rsvp = 'Yes'; // Hardcoded as "Yes" because the user clicked "Yes"
+
+            // Data to send to Google Sheets
+            const data = {
+                phone: phone,
+                guests: guests,
+                rsvp: rsvp
+            };
+
+            // Send data to Google Apps Script
+            fetch('https://script.google.com/macros/s/AKfycbwU4xJZ3ZycA0CoyVjgRT_rgbAsn0uQiZ9IuHnKDIkNXRjddnKx1ZtR454hAF3RvJ0/exec', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(result => {
+                if (result.success) {
+                    // Redirect to thank you page after successful submission
+                    window.location.href = 'thank_you.html';
+                } else {
+                    alert('שגיאה בשליחת הנתונים, אנא נסה שנית.');
+                }
+            })
+            .catch(error => {
+                alert('שגיאה בשליחת הנתונים, אנא נסה שנית.');
+                console.error(error);
+            });
+        });
+
     </script>
 </body>
 </html>
