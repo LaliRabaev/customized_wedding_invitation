@@ -162,7 +162,7 @@
             };
 
             // Send data to Google Apps Script
-            fetch('https://script.google.com/macros/s/AKfycbxksFgUwPh7YbXkhfJ-SW7XHGsw6a5cIk8y91bUNMRgG_mVE4y6QhYYxnJXKBk-oAM/exec', {
+            fetch('https://script.google.com/macros/s/AKfycbwU4xJZ3ZycA0CoyVjgRT_rgbAsn0uQiZ9IuHnKDIkNXRjddnKx1ZtR454hAF3RvJ0/exec', {
                 method: 'POST',
                 mode: 'cors', // Enable cross-origin requests
                 headers: { 'Content-Type': 'application/json' },
@@ -170,18 +170,18 @@
             })
                 .then(response => response.json())
                 .then(result => {
-                    if (result.success) {
-                        // Redirect to thank you page after successful submission
-                        window.location.href = 'thank_you.html';
-                    } else {
-                        alert('שגיאה בשליחת הנתונים, אנא נסה שנית.');
-                    }
+                if (result.success) {
+                    // Redirect to thank you page after successful submission
+                    window.location.href = 'thank_you.html';
+                } else {
+                    alert('שגיאה בשליחת הנתונים, אנא נסה שנית.');
+                }
                 })
                 .catch(error => {
-                    alert('שגיאה בשליחת הנתונים, אנא נסה שנית.');
-                    console.error(error);
+                alert('שגיאה בשליחת הנתונים, אנא נסה שנית.');
+                console.error(error);
                 });
-        });
+            });
 
     </script>
 </body>
