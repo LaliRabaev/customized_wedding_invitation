@@ -164,18 +164,24 @@
             // Send data to Google Apps Script
             fetch('https://script.google.com/macros/s/AKfycbzAyUHhAbTc0JN5ut5TPGrwjrIMmuCzOr14hW5nTohEWGmNRE0uQmJDYCyH8oSFLqk/exec', {
                 method: 'POST',
-                mode: 'no-cors', // Disable CORS checking
+                mode: 'cors', // Enable cross-origin requests
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data),
-                })
-                .then(() => {
-                console.log("Data sent successfully");
-                })
-                .catch(error => {
-                console.error("Error:", error);
-                });
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(result => {
+                if (result.success) {
+                    // Redirect to thank you page after successful submission
+                    window.location.href = 'thank_you.html';
+                } else {
+                    alert('שגיאה בשליחת הנתונים.');
+                }
+            })
+            .catch(error => {
+                alert('שגיאה בשליחת הנתונים.');
+                console.error(error);
             });
-
+        });
     </script>
 </body>
 </html>
